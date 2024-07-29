@@ -1,0 +1,33 @@
+---
+
+- General:
+    - Home Assistant:
+        icon: si-homeassistant-#383b40
+        href: http://homeassistant:8123/
+        description: Home Automation and stuff
+    - OctoPi:
+        icon: si-octoprint-#383b40
+        description:
+    - TrueNAS:
+        href: http://192.168.0.10/
+        icon: si-truenas-#383b40
+        widget:
+            type: truenas
+            url: http://192.168.0.10
+            username: admin # not required if using api key
+            password:  # not required if using api key
+            enablePools: true # optional, defaults to false
+            nasType: scale # defaults to scale, must be set to 
+    - Plex:
+        icon: si-plex-#383b40
+        href: http://192.168.0.10:32401/
+        server: http://192.168.0.10:32401/
+        widget:
+            type: tautulli
+            url: http://192.168.0.10:30047
+            key: 
+            enableUser: true
+- Office:
+    - Nextcloud:
+        icon: si-nextcloud-#383b40
+        href: https://cloud.weinbrecht.xyz/
