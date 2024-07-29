@@ -1,7 +1,22 @@
 ---
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/settings
+favicon: https://img.icons8.com/?size=100&id=59809&format=png&color=000000
+# providers:
+#   openweathermap: openweathermapapikey
+#   weatherapi: weatherapiapikey
+background: 
+  #image: https://w.wallhaven.cc/full/p2/wallhaven-p2m9g3.jpg
+  image: https://www.meisterdrucke.com/kunstwerke/1260px/Caspar_David_Friedrich_-_Landscape_in_the_Riesengebirge_-_%28MeisterDrucke-35523%29.jpg
+  #image: https://w.wallhaven.cc/full/zx/wallhaven-zxz1jo.jpg
+  # image: /images/wallhaven-zxz1jo.jpg 
+  # blur: sm 
+cardBlur: md
+headerStyle: clean
+target: _blank
+# layout:
+#   Media:
+#     style: row
+#     columns: 4
+hideVersion: true
 
-providers:
-  openweathermap: openweathermapapikey
-  weatherapi: weatherapiapikey
