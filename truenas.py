@@ -1,12 +1,20 @@
+#!/usr/bin/env python3
 import requests
 from wakeonlan import send_magic_packet
 import time
 import logging
 
 
-# Configuration
-logging.basicConfig(level=logging.INFO)
-logging.getLogger("urllib3").setLevel(logging.WARNING)
+def setup_logging(log_path):
+    if log_path:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s - %(levelname)s - %(message)s",
+            filename=log_path,
+        )
+    else:
+        logging.basicConfig(level=logging.INFO)
+        logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
 class TNUtils:
@@ -15,6 +23,9 @@ class TNUtils:
         self.truenas_mac = mac
         self.api_key = api_key
         self.base_url = f"http://{self.truenas_ip}/api/v2.0"
+
+    def __repr__(self) -> str:
+        return f"TNUtils(IP={self.truenas_ip}, MAC={self.truenas_mac}, api_key=*****)"
 
     def wake(self):
         """Send a Wake-on-LAN magic packet to the TrueNAS system."""
@@ -59,8 +70,7 @@ class TNUtils:
             logging.error(f"Error sending shutdown command: {e}")
 
 
-def main(ip, mac, api_key, interval: int = 60, threshold: int = 3600):
-    truenas = TNUtils(ip, mac, api_key)
+def main(truenas, interval: int = 60, threshold: int = 3600):
     already_awake = truenas.is_awake()
     if already_awake:
         logging.info("TrueNAS is already up.")
@@ -108,7 +118,24 @@ if __name__ == "__main__":
         "--interval", help="Check interval in seconds", type=int, default=60
     )
     parser.add_argument(
-        "--threshold", help="Idle threshold in seconds", type=int, default=3600
+        "--threshold",
+        help="Idle threshold in seconds.",
+        type=int,
+        default=3600,
+        # this should be above whatever the delta between the start of the script and the first check is
+        # since there will always be a couple of tasks after the system booted.
+        # TODO: make this a bit more dynamic, i.e. filter out tasks that are older than the script start or of a certain type
     )
+    parser.add_argument("--debug", help="Enable debug logging", action="store_true")
+    parser.add_argument("--log", help="Log file path")
     args = parser.parse_args()
-    main(args.ip, args.mac, args.api_key, args.interval, args.threshold)
+
+    setup_logging(args.log)
+
+    truenas = TNUtils(args.ip, args.mac, args.api_key)
+    logging.info(f"Starting TrueNAS monitor with {truenas}")
+    logging.info(f"Check interval: {args.interval} seconds")
+    logging.info(f"Idle threshold: {args.threshold} seconds")
+
+    if not args.debug:
+        main(truenas, args.interval, args.threshold)
