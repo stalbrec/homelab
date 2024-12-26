@@ -3,6 +3,7 @@ import requests
 from wakeonlan import send_magic_packet
 import time
 import logging
+import argparse
 
 
 def setup_logging(log_path):
@@ -71,42 +72,6 @@ class TNUtils:
 
 
 def main(truenas, interval: int = 60, threshold: int = 3600):
-    already_awake = truenas.is_awake()
-    if already_awake:
-        logging.info("TrueNAS is already up.")
-    else:
-        logging.info("TrueNAS is down. Waking it up...")
-        truenas.wake()
-        time.sleep(30)
-
-    while not truenas.is_awake():
-        logging.info("Waiting for TrueNAS to come online...")
-        time.sleep(10)
-
-    logging.info("TrueNAS is online. Monitoring tasks...")
-
-    no_task_time = 0
-    while True:
-        tasks = truenas.get_running_tasks()
-        if tasks:
-            logging.info(f"Observing {len(tasks)} running tasks. Resetting idle timer.")
-            no_task_time = 0
-        else:
-            no_task_time += interval
-            logging.info(f"No tasks running. Idle time: {no_task_time} seconds.")
-
-            if no_task_time >= threshold:
-                logging.info(
-                    "No tasks running for threshold time. Shutting down TrueNAS..."
-                )
-                truenas.shutdown()
-                break
-
-        time.sleep(interval)
-
-
-if __name__ == "__main__":
-    import argparse
 
     parser = argparse.ArgumentParser(
         description="Monitor TrueNAS tasks and shutdown when idle."
@@ -137,5 +102,39 @@ if __name__ == "__main__":
     logging.info(f"Check interval: {args.interval} seconds")
     logging.info(f"Idle threshold: {args.threshold} seconds")
 
-    if not args.debug:
-        main(truenas, args.interval, args.threshold)
+    already_awake = truenas.is_awake()
+    if already_awake:
+        logging.info("TrueNAS is already up.")
+    else:
+        logging.info("TrueNAS is down. Waking it up...")
+        truenas.wake()
+        time.sleep(30)
+
+    while not truenas.is_awake():
+        logging.info("Waiting for TrueNAS to come online...")
+        time.sleep(10)
+
+    logging.info("TrueNAS is online. Monitoring tasks...")
+
+    no_task_time = 0
+    while True:
+        tasks = truenas.get_running_tasks()
+        if tasks:
+            logging.info(f"Observing {len(tasks)} running tasks. Resetting idle timer.")
+            no_task_time = 0
+        else:
+            no_task_time += args.interval
+            logging.info(f"No tasks running. Idle time: {no_task_time} seconds.")
+
+            if no_task_time >= args.threshold:
+                logging.info(
+                    "No tasks running for threshold time. Shutting down TrueNAS..."
+                )
+                truenas.shutdown()
+                break
+
+        time.sleep(args.interval)
+
+
+if __name__ == "__main__":
+    main()
