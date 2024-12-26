@@ -1,0 +1,18 @@
+[project]
+name = "homelab"
+version = "0.1.0"
+description = "Miscellaneous scripts/utils for my home lab"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "ipython>=8.31.0",
+    "requests>=2.32.3",
+    "wakeonlan>=3.1.0",
+]
+
+[project.scripts]
+truenas-schedule = "truenas.schedule:main"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"

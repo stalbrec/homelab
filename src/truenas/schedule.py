@@ -71,7 +71,7 @@ class TNUtils:
             logging.error(f"Error sending shutdown command: {e}")
 
 
-def main(truenas, interval: int = 60, threshold: int = 3600):
+def main():
 
     parser = argparse.ArgumentParser(
         description="Monitor TrueNAS tasks and shutdown when idle."
