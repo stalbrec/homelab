@@ -12,8 +12,7 @@ For me, my data protection tasks are scheduled to run at 12am, so I have the Pi 
 
 - power efficient home server
 - remote access
-  - [netbird]
-(https://github.com/netbirdio/netbird)
+  - [netbird](https://github.com/netbirdio/netbird)
     - good overview on overlay VPN by [lawrence systens](https://youtu.be/eCXl09h7lqo)
   - remote backup box (family/friends)
   - cloud backup (hetzner storagebox)
