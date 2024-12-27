@@ -12,6 +12,10 @@ For me, my data protection tasks are scheduled to run at 12am, so I have the Pi 
 
 - power efficient home server
 - remote access
+  - [netbird]
+(https://github.com/netbirdio/netbird)
+  - remote backup box (family/friends)
+  - cloud backup (hetzner storagebox)
 - local backup
  - RAW photos (Lightroom interface/plugin?)
  - video surveillance
