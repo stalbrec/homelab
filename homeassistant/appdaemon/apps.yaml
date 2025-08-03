@@ -1,0 +1,3 @@
+random_fragezeichen:
+    module: random_fragezeichen
+    class: RandomFragezeichen
