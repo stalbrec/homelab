@@ -18,6 +18,7 @@ class RandomFragezeichen(hass.Hass):
         json_path = data.get("json_file", "/homeassistant/dreifragezeichen_folgen.json")
         cache_path = json_path.replace(".json", "_cache.json")
         target = data.get("target", "media_player.schlafzimmer_mini_2")
+        user_volume_level = data.get("volume", 0.05)
         sleep_timer = data.get("sleep_time")
 
         if self.get_state("input_boolean.fragezeichen_episode_playing") == "on":
@@ -70,7 +71,7 @@ class RandomFragezeichen(hass.Hass):
             orig_volume = attrs["attributes"].get("volume_level", 0.5)
         self.log(f"Original volume of {target} is {orig_volume}")
 
-        self.call_service("media_player/volume_set", entity_id=target, volume_level=0.15)
+        self.call_service("media_player/volume_set", entity_id=target, volume_level=user_volume_level)
 
 
         service_payload = {
