@@ -1,0 +1,11 @@
+.ipynb_checkpoints
+__pycache__
+.DS_Store
+.gitignore
+proxmox_services_backup
+planning
+tuya_convert_back*
+homarr
+homepage/images
+*.egg-info
+fio_scan_results
