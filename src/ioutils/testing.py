@@ -2,6 +2,7 @@ from .fio import FioDirTest, FioFileTest, FioResult
 import itertools
 import pandas as pd
 import os
+import platform
 import logging
 import uuid
 
@@ -48,6 +49,7 @@ def main():
 
     # Example: parameter_ranges = {"bs": ["4K", "64K"], "size": ["10M", "100M"]}
     parameter_ranges = {
+        "ioengine": ["posixaio" if platform.system() == "Darwin" else "libaio"],
         "runtime":[30],
         "bs": ["4K","4M"],
         "size": ["100M","1G"],
